@@ -306,102 +306,106 @@ module Google::GroupSync
       if !@ldap_groups.nil? && !@ldap_groups.empty?
         get_ldap_users
         
-        @log.info 'App(get_ldap_grp_mems):Processing LDAP Group Members'
-        @ldap_groups.each do |mail,grp|
-          @log.debug "App(get_ldap_grp_mems):Attempting to find group members for: #{grp[:name]}"
-          ent = grp[:ent]
-          if !ent[@config.ldap.search.groups_member_attr].nil? && ent[@config.ldap.search.groups_member_attr].any?
-            @log.debug "App(get_ldap_grp_mems):Members found: #{ent[@config.ldap.search.groups_member_attr].size}"
-            ent[@config.ldap.search.groups_member_attr].each do |dn|
-              test_dn = dn.downcase
-              test_dn.delete! "\s"
-              test_dn.strip!
-              
-              m_found = false
-              if !@ldap_users.nil? && !@ldap_users.empty?
-                if @ldap_users.has_key? test_dn.to_sym
-                  @log.debug "App(get_ldap_grp_mems):Adding group member: #{@ldap_users[test_dn.to_sym]}"
-                  grp[:members].push @ldap_users[test_dn.to_sym]
-                  m_found = true
+        if !@ldap_groups.nil? && !@ldap_groups.empty?
+          @log.info 'App(get_ldap_grp_mems):Processing LDAP Group Members'
+          @ldap_groups.each do |mail,grp|
+            @log.debug "App(get_ldap_grp_mems):Attempting to find group members for: #{grp[:name]}"
+            ent = grp[:ent]
+            if !ent[@config.ldap.search.groups_member_attr].nil? && ent[@config.ldap.search.groups_member_attr].any?
+              @log.debug "App(get_ldap_grp_mems):Members found: #{ent[@config.ldap.search.groups_member_attr].size}"
+              ent[@config.ldap.search.groups_member_attr].each do |dn|
+                test_dn = dn.downcase
+                test_dn.delete! "\s"
+                test_dn.strip!
+                
+                m_found = false
+                if !@ldap_users.nil? && !@ldap_users.empty?
+                  if @ldap_users.has_key? test_dn.to_sym
+                    @log.debug "App(get_ldap_grp_mems):Adding group member: #{@ldap_users[test_dn.to_sym]}"
+                    grp[:members].push @ldap_users[test_dn.to_sym]
+                    m_found = true
+                  end
                 end
-              end
-              
-              if !m_found
-                begin
-                  @ldap.ent_from_dn dn, ['objectClass', @config.ldap.search.groups_mail_attr] do |ent2,ldap2|
-                    if !ent2.nil?
-                      if !ent2['mail'].nil? && ent2['mail'].any?
-                        m_ent = Hash.new
-                        m_ent[:mail] = ent2['mail'].first.downcase
-                        m_ent[:type] = 'USER'
-                        
-                        ent2['objectClass'].each do |obj|
-                          if obj.downcase.eql?(@config.ldap.search.groups_obj_class.downcase)
-                            m_ent[:type] = 'GROUP'
+                
+                if !m_found
+                  begin
+                    @ldap.ent_from_dn dn, ['objectClass', @config.ldap.search.groups_mail_attr] do |ent2,ldap2|
+                      if !ent2.nil?
+                        if !ent2['mail'].nil? && ent2['mail'].any?
+                          m_ent = Hash.new
+                          m_ent[:mail] = ent2['mail'].first.downcase
+                          m_ent[:type] = 'USER'
+                          
+                          ent2['objectClass'].each do |obj|
+                            if obj.downcase.eql?(@config.ldap.search.groups_obj_class.downcase)
+                              m_ent[:type] = 'GROUP'
+                            end
                           end
+                          
+                          grp[:members].push m_ent
+                        else
+                          @log.error "App(get_ldap_grp_mems):Member NOT FOUND: #{grp[:name]} - #{dn}"
                         end
-                        
-                        grp[:members].push m_ent
                       else
                         @log.error "App(get_ldap_grp_mems):Member NOT FOUND: #{grp[:name]} - #{dn}"
                       end
-                    else
-                      @log.error "App(get_ldap_grp_mems):Member NOT FOUND: #{grp[:name]} - #{dn}"
                     end
+                  rescue Exception => e
+                    @log.error "App(get_ldap_grp_mems):#{e}"
                   end
-                rescue Exception => e
-                  @log.error "App(get_ldap_grp_mems):#{e}"
                 end
               end
             end
-          end
-          
-          @log.debug "App(get_ldap_grp_mems):Attempting to find group owners for: #{grp[:name]}"
-          if !ent[@config.ldap.search.groups_owner_attr].nil? && ent[@config.ldap.search.groups_owner_attr].any?
-            @log.debug "App(get_ldap_grp_mems):Owners found: #{ent[@config.ldap.search.groups_owner_attr].size}"
-            ent[@config.ldap.search.groups_owner_attr].each do |dn|
-              test_dn = dn.downcase
-              test_dn.delete! "\s"
-              test_dn.strip!
-              
-              o_found = false
-              if !@ldap_users.nil? && !@ldap_users.empty?
-                if @ldap_users.has_key? test_dn.to_sym
-                  @log.debug "App(get_ldap_grp_mems):Adding group owner: #{@ldap_users[test_dn.to_sym]}"
-                  grp[:owners].push @ldap_users[test_dn.to_sym]
-                  o_found = true
+            
+            @log.debug "App(get_ldap_grp_mems):Attempting to find group owners for: #{grp[:name]}"
+            if !ent[@config.ldap.search.groups_owner_attr].nil? && ent[@config.ldap.search.groups_owner_attr].any?
+              @log.debug "App(get_ldap_grp_mems):Owners found: #{ent[@config.ldap.search.groups_owner_attr].size}"
+              ent[@config.ldap.search.groups_owner_attr].each do |dn|
+                test_dn = dn.downcase
+                test_dn.delete! "\s"
+                test_dn.strip!
+                
+                o_found = false
+                if !@ldap_users.nil? && !@ldap_users.empty?
+                  if @ldap_users.has_key? test_dn.to_sym
+                    @log.debug "App(get_ldap_grp_mems):Adding group owner: #{@ldap_users[test_dn.to_sym]}"
+                    grp[:owners].push @ldap_users[test_dn.to_sym]
+                    o_found = true
+                  end
                 end
-              end
-              
-              if !o_found
-                begin
-                  @ldap.ent_from_dn dn, ['objectClass', @config.ldap.search.groups_mail_attr] do |ent2,ldap2|
-                    if !ent2.nil?
-                      if !ent2['mail'].nil? && ent2['mail'].any?
-                        o_ent = Hash.new
-                        o_ent[:mail] = ent2['mail'].first.downcase
-                        o_ent[:type] = 'USER'
-                        
-                        ent2['objectClass'].each do |obj|
-                          if obj.downcase.eql?(@config.ldap.search.groups_obj_class.downcase)
-                            o_ent[:type] = 'GROUP'
+                
+                if !o_found
+                  begin
+                    @ldap.ent_from_dn dn, ['objectClass', @config.ldap.search.groups_mail_attr] do |ent2,ldap2|
+                      if !ent2.nil?
+                        if !ent2['mail'].nil? && ent2['mail'].any?
+                          o_ent = Hash.new
+                          o_ent[:mail] = ent2['mail'].first.downcase
+                          o_ent[:type] = 'USER'
+                          
+                          ent2['objectClass'].each do |obj|
+                            if obj.downcase.eql?(@config.ldap.search.groups_obj_class.downcase)
+                              o_ent[:type] = 'GROUP'
+                            end
                           end
+                          
+                          grp[:owners].push o_ent
+                        else
+                          @log.error "App(get_ldap_grp_mems):Owner NOT FOUND: #{grp[:name]} - #{dn}"
                         end
-                        
-                        grp[:owners].push o_ent
                       else
                         @log.error "App(get_ldap_grp_mems):Owner NOT FOUND: #{grp[:name]} - #{dn}"
                       end
-                    else
-                      @log.error "App(get_ldap_grp_mems):Owner NOT FOUND: #{grp[:name]} - #{dn}"
                     end
+                  rescue Exception => e
+                    @log.error "App(get_ldap_grp_mems):#{e}"
                   end
-                rescue Exception => e
-                  @log.error "App(get_ldap_grp_mems):#{e}"
                 end
               end
             end
           end
+        else
+          @log.error 'App(get_ldap_grp_mems):LDAP users are empty or invalid'
         end
       else
         @log.error 'App(get_ldap_grp_mems):LDAP groups are empty or invalid'
