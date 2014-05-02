@@ -22,7 +22,7 @@ module Google::GroupSync
       @name         = 'Google Apps Groups Sync (GAGS)'
       @version      = '1.0'
       @author       = 'Ted Elwartowski <xelwarto.pub@gmail.com> (2014)'
-      @cfg_file     = 'cfg/gsync.yaml'
+      @cfg_file     = 'config/application.rb'
     end
   end
 end

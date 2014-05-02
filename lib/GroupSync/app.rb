@@ -34,10 +34,11 @@ module Google::GroupSync
         exit 0
       end
       
-      config = Google::GroupSync::Config.instance
-      config.params[:app_dir] = app_dir
-      config.params[:cfg_file] = argvs[:cfg]
-      if !config.load_cfg
+      cfg = Google::GroupSync::Config.instance
+      @config = cfg.config
+      @config.app_dir = app_dir
+      @config.cfg_file = argvs[:cfg]
+      if !cfg.load!
         @log.show Google::GroupSync::Util.show_use, false
         exit 1
       end
@@ -46,7 +47,6 @@ module Google::GroupSync
         @log.show Google::GroupSync::Util.show_use, false
         exit 1
       else
-        @cfg = config.get
         @ldap_groups = nil
         @ldap_users = nil
         @google_groups = nil

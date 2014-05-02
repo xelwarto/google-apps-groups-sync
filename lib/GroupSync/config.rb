@@ -16,51 +16,28 @@ module Google::GroupSync
   class Config
     include Singleton
 
-    attr_accessor :params
-
-    def initialize
-      @params = Hash.new
+    def initialize(cfg=nil)
       @c = Google::GroupSync::Constants.instance
       @log = Google::GroupSync::Log.instance
       @log.info 'Config:Initializing Application Configuration'
     end
     
-    def get
-      self.params[:cfg]
-    end
-    
-    def load_cfg
+    def load!
       @log.debug 'Config(load_cfg):Loading Configuration File'
-      @params[:cfg_file] ||= @c.cfg_file
+      config.cfg_file ||= @c.cfg_file
       
-      cfg = @params[:cfg_file]
+      cfg = config.cfg_file
       if cfg !~ /^\//
-        cfg = "#{@params[:app_dir]}/#{@params[:cfg_file]}"
+        if !config.app_dir.nil?
+          cfg = "#{config.app_dir}/#{config.cfg_file}"
+        end
       end
       @log.debug "Config(load_cfg):Configuration file set to: #{cfg}"
       
       if File.file?(cfg)
         begin
-          @log.debug 'Config(load_cfg):Attempting to load YAML file'
-          yaml = YAML.load_file(cfg)
-          
-          if yaml[:general]
-            if !yaml[:gapi][:secrets_file].nil?
-              if yaml[:gapi][:secrets_file] !~ /^\//
-                yaml[:gapi][:secrets_file] = "#{@params[:app_dir]}/#{yaml[:gapi][:secrets_file]}"
-              end
-            end
-            
-            if !yaml[:general][:cache_dir].nil?
-              if yaml[:general][:cache_dir] !~ /^\//
-                yaml[:general][:cache_dir] = "#{@params[:app_dir]}/#{yaml[:general][:cache_dir]}"
-              end
-            end
-            @params[:cfg] = yaml
-            return true
-          else
-            @log.error 'Config(load_cfg):unable to read correct config'
-          end
+          require cfg
+          return true
         rescue Exception => e
           @log.error "Config(load_cfg):#{e}"
         end
@@ -68,6 +45,91 @@ module Google::GroupSync
         @log.error 'Config(load_cfg):unable to locate config file'
       end
       return false
+    end
+    
+    def config
+      @config ||= GeneralConfig.new
+    end
+    
+    def self.configure(&block)
+      class_eval(&block)
+    end
+    
+    class << self
+      def config
+        Config.instance.config
+      end
+    end
+    
+    protected
+    
+    class GeneralConfig
+      attr_accessor :app_dir, :cfg_file, :cache_dir, :google, :ldap
+      
+      def initialize
+        c = Google::GroupSync::Constants.instance
+        
+        @app_dir              = nil
+        @cfg_file             = c.cfg_file
+        @cache_dir            = nil
+        @google               = GoogleConfig.new
+        @ldap                 = LdapConfig.new
+      end
+    end
+    
+    class GoogleConfig
+      attr_accessor :app_name, :app_version, :timeout, :secrets_file, :refresh_token, :domain
+      
+      def initialize
+        @app_name             = nil
+        @app_version          = nil
+        @timeout              = 20
+        @secrets_file         = nil
+        @refresh_token        = nil
+        @domain               = nil
+      end
+    end
+    
+    class LdapConfig
+      attr_accessor :timeout, :server, :port, :secure, :bind_dn, :bind_pass, :search
+      
+      def initialize
+        @timeout              = 10
+        @server               = nil 
+        @port                 = nil
+        @secure               = false
+        
+        @bind_dn              = nil
+        @bind_pass            = nil
+        
+        @search               = SearchConfig.new
+      end
+      
+      class SearchConfig
+        attr_accessor :timeout, :groups_base, :groups_base, :groups_obj_class, :groups_name_attr,
+                      :groups_mail_attr, :groups_member_attr, :groups_owner_attr, :groups_descr_attr,
+                      :groups_alias_attr, :groups_manager_attr, :users_base, :users_obj_class,
+                      :users_id_attr, :users_mail_attr
+        
+        def initialize
+          @timeout              = 60
+          
+          @groups_base          = nil
+          @groups_obj_class     = nil
+          @groups_name_attr     = nil
+          @groups_mail_attr     = nil
+          @groups_member_attr   = nil
+          @groups_owner_attr    = nil
+          @groups_manager_attr  = nil
+          @groups_descr_attr    = nil
+          @groups_alias_attr    = nil
+          
+          @users_base           = nil
+          @users_obj_class      = nil
+          @users_id_attr        = nil
+          @users_mail_attr      = nil
+        end
+      end
     end
     
   end
