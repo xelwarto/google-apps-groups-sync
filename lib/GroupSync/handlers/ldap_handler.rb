@@ -110,12 +110,6 @@ module Google::GroupSync
                   end
                 end
                 
-                if !@search.groups_manager_attr.nil? && !@search.groups_manager_attr.eql?('')
-                  if !ent[@search.groups_manager_attr].nil? && ent[@search.groups_manager_attr].any?
-                    grp[:manager] = ent[@search.groups_manager_attr]
-                  end
-                end
-                
                 if !@search.groups_descr_attr.nil? && !@search.groups_descr_attr.eql?('')
                   if !ent[@search.groups_descr_attr].nil? && ent[@search.groups_descr_attr].any?
                     grp[:description] = ent[@search.groups_descr_attr].first

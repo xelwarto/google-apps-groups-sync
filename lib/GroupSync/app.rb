@@ -310,9 +310,9 @@ module Google::GroupSync
         @ldap_groups.each do |mail,grp|
           @log.debug "App(get_ldap_grp_mems):Attempting to find group members for: #{grp[:name]}"
           ent = grp[:ent]
-          if !ent['uniqueMember'].nil? && ent['uniqueMember'].any?
-            @log.debug "App(get_ldap_grp_mems):Members found: #{ent['uniqueMember'].size}"
-            ent['uniqueMember'].each do |dn|
+          if !ent[@config.ldap.search.groups_member_attr].nil? && ent[@config.ldap.search.groups_member_attr].any?
+            @log.debug "App(get_ldap_grp_mems):Members found: #{ent[@config.ldap.search.groups_member_attr].size}"
+            ent[@config.ldap.search.groups_member_attr].each do |dn|
               test_dn = dn.downcase
               test_dn.delete! "\s"
               test_dn.strip!
@@ -336,7 +336,7 @@ module Google::GroupSync
                         m_ent[:type] = 'USER'
                         
                         ent2['objectClass'].each do |obj|
-                          if obj.downcase.eql? 'groupofuniquenames'
+                          if obj.downcase.eql?(@config.ldap.search.groups_obj_class.downcase)
                             m_ent[:type] = 'GROUP'
                           end
                         end
@@ -357,9 +357,9 @@ module Google::GroupSync
           end
           
           @log.debug "App(get_ldap_grp_mems):Attempting to find group owners for: #{grp[:name]}"
-          if !ent['owner'].nil? && ent['owner'].any?
-            @log.debug "App(get_ldap_grp_mems):Owners found: #{ent['owner'].size}"
-            ent['owner'].each do |dn|
+          if !ent[@config.ldap.search.groups_owner_attr].nil? && ent[@config.ldap.search.groups_owner_attr].any?
+            @log.debug "App(get_ldap_grp_mems):Owners found: #{ent[@config.ldap.search.groups_owner_attr].size}"
+            ent[@config.ldap.search.groups_owner_attr].each do |dn|
               test_dn = dn.downcase
               test_dn.delete! "\s"
               test_dn.strip!
@@ -383,7 +383,7 @@ module Google::GroupSync
                         o_ent[:type] = 'USER'
                         
                         ent2['objectClass'].each do |obj|
-                          if obj.downcase.eql? 'groupofuniquenames'
+                          if obj.downcase.eql?(@config.ldap.search.groups_obj_class.downcase)
                             o_ent[:type] = 'GROUP'
                           end
                         end
