@@ -306,7 +306,7 @@ module Google::GroupSync
       if !@ldap_groups.nil? && !@ldap_groups.empty?
         get_ldap_users
         
-        if !@ldap_groups.nil? && !@ldap_groups.empty?
+        if !@ldap_users.nil? && !@ldap_users.empty?
           @log.info 'App(get_ldap_grp_mems):Processing LDAP Group Members'
           @ldap_groups.each do |mail,grp|
             @log.debug "App(get_ldap_grp_mems):Attempting to find group members for: #{grp[:name]}"
