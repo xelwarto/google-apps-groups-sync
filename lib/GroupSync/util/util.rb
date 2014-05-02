@@ -85,6 +85,7 @@ EOF
     end
 
     def self.show_banner
+      c = Google::GroupSync::Constants.instance
       banner = <<EOF
  _____                   _         ___                    _____                             _____                  
 |  __ \\                 | |       / _ \\                  |  __ \\                           /  ___|                 
@@ -95,9 +96,9 @@ EOF
                     __/ |              | |   | |                               | |                 __/ |           
                    |___/               |_|   |_|                               |_|                |___/            
 
- #{Google::GroupSync::Constants.name} 
- Version: #{Google::GroupSync::Constants.version}
- Written by: #{Google::GroupSync::Constants.author}
+ #{c.name} 
+ Version: #{c.version}
+ Written by: #{c.author}
 EOF
       banner
     end

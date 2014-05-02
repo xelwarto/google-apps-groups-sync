@@ -16,7 +16,6 @@ module Google::GroupSync
   class App
 
     def self.run(app_dir)
-      Google::GroupSync::Constants.instance
       @log = Google::GroupSync::Log.instance
       
       run_cmd = Google::GroupSync::Util.get_command

@@ -16,15 +16,13 @@ module Google::GroupSync
   class Constants
     include Singleton
     
-    def initialize
-      Constants.name         = 'Google Apps Groups Sync (GAGS)'
-      Constants.version      = '1.0'
-      Constants.author       = 'Ted Elwartowski (2014)'
-      Constants.cfg_file     = 'cfg/gsync.yaml'
-    end
+    attr_accessor :version, :author, :cfg_file, :name
     
-    class << self
-      attr_accessor :version, :author, :cfg_file, :name
+    def initialize
+      @name         = 'Google Apps Groups Sync (GAGS)'
+      @version      = '1.0'
+      @author       = 'Ted Elwartowski <xelwarto.pub@gmail.com> (2014)'
+      @cfg_file     = 'cfg/gsync.yaml'
     end
   end
 end

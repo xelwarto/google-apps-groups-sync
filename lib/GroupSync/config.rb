@@ -20,6 +20,7 @@ module Google::GroupSync
 
     def initialize
       @params = Hash.new
+      @c = Google::GroupSync::Constants.instance
       @log = Google::GroupSync::Log.instance
       @log.info 'Config:Initializing Application Configuration'
     end
@@ -30,7 +31,7 @@ module Google::GroupSync
     
     def load_cfg
       @log.debug 'Config(load_cfg):Loading Configuration File'
-      @params[:cfg_file] ||= Google::GroupSync::Constants.cfg_file
+      @params[:cfg_file] ||= @c.cfg_file
       
       cfg = @params[:cfg_file]
       if cfg !~ /^\//
