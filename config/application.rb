@@ -107,11 +107,11 @@ Google::GroupSync::Config.configure do
   
   # config.ldap.search.groups_filter
   # LDAP search filter used to retrieve groups from the LDAP server
-  config.ldap.search.groups_filter = '(objectClass=groupOfUniquenames)'
+  config.ldap.search.groups_filter = '(objectClass=groupOfUniqueNames)'
   
   # config.ldap.search.groups_obj_class
   # LDAP objectClass used to verify groups in LDAP search results
-  config.ldap.search.groups_obj_class = 'groupOfUniquenames'
+  config.ldap.search.groups_obj_class = 'groupOfUniqueNames'
   
   # config.ldap.search.groups_name_attr
   # LDAP attribute for the group name - this is a required field for Google groups
