@@ -106,15 +106,16 @@ module Google::GroupSync
       end
       
       class SearchConfig
-        attr_accessor :timeout, :groups_base, :groups_base, :groups_obj_class, :groups_name_attr,
-                      :groups_mail_attr, :groups_member_attr, :groups_owner_attr, :groups_descr_attr,
-                      :groups_alias_attr, :groups_manager_attr, :users_base, :users_obj_class,
-                      :users_id_attr, :users_mail_attr
+        attr_accessor :timeout, :groups_base, :groups_base, :groups_filter, :groups_obj_class,
+                      :groups_name_attr, :groups_mail_attr, :groups_member_attr, :groups_owner_attr,
+                      :groups_descr_attr, :groups_alias_attr, :groups_manager_attr, :users_base,
+                      :users_filter, :users_obj_class, :users_mail_attr
         
         def initialize
           @timeout              = 60
           
           @groups_base          = nil
+          @groups_filter        = nil
           @groups_obj_class     = nil
           @groups_name_attr     = nil
           @groups_mail_attr     = nil
@@ -125,8 +126,8 @@ module Google::GroupSync
           @groups_alias_attr    = nil
           
           @users_base           = nil
+          @users_filter         = nil
           @users_obj_class      = nil
-          @users_id_attr        = nil
           @users_mail_attr      = nil
         end
       end
