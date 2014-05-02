@@ -100,7 +100,7 @@ module Google::GroupSync
           updated_groups = Array.new
           @ldap_groups.each do |l_mail,l_grp|
             begin
-              l_cn = l_grp[:cn]
+              l_cn = l_grp[:name]
               l_descr = l_grp[:description]
               l_grp_members = l_grp[:members]
               l_grp_owners = l_grp[:owners]
@@ -277,7 +277,7 @@ module Google::GroupSync
     def self.get_ldap_users
       if @ldap_users.nil? || @ldap_users.empty?
         @log.info 'App(get_ldap_users):Retrieving LDAP Users'
-        @ldap_users = @ldap.get_ldap_users
+        @ldap_users = @ldap.get_users
         
         if !@ldap_users.nil?
           @log.info "App(get_ldap_users):Found LDAP users: #{@ldap_users.size}"
@@ -290,7 +290,7 @@ module Google::GroupSync
     def self.get_ldap_groups
       if @ldap_groups.nil? || @ldap_groups.empty?
         @log.info 'App(get_ldap_groups):Retrieving LDAP Standard Groups'
-        @ldap_groups = @ldap.get_ldap_groups
+        @ldap_groups = @ldap.get_groups
         
         if !@ldap_groups.nil?
           @log.info "App(get_ldap_groups):Found LDAP groups: #{@ldap_groups.size}"
@@ -308,7 +308,7 @@ module Google::GroupSync
         
         @log.info 'App(get_ldap_grp_mems):Processing LDAP Group Members'
         @ldap_groups.each do |mail,grp|
-          @log.debug "App(get_ldap_grp_mems):Attempting to find group members for: #{grp[:cn]}"
+          @log.debug "App(get_ldap_grp_mems):Attempting to find group members for: #{grp[:name]}"
           ent = grp[:ent]
           if !ent['uniqueMember'].nil? && ent['uniqueMember'].any?
             @log.debug "App(get_ldap_grp_mems):Members found: #{ent['uniqueMember'].size}"
@@ -328,7 +328,7 @@ module Google::GroupSync
               
               if !m_found
                 begin
-                  @ldap.ent_from_dn dn do |ent2,ldap2|
+                  @ldap.ent_from_dn dn, ['objectClass', @config.ldap.search.groups_mail_attr] do |ent2,ldap2|
                     if !ent2.nil?
                       if !ent2['mail'].nil? && ent2['mail'].any?
                         m_ent = Hash.new
@@ -343,10 +343,10 @@ module Google::GroupSync
                         
                         grp[:members].push m_ent
                       else
-                        @log.error "App(get_ldap_grp_mems):Member NOT FOUND: #{grp[:cn]} - #{dn}"
+                        @log.error "App(get_ldap_grp_mems):Member NOT FOUND: #{grp[:name]} - #{dn}"
                       end
                     else
-                      @log.error "App(get_ldap_grp_mems):Member NOT FOUND: #{grp[:cn]} - #{dn}"
+                      @log.error "App(get_ldap_grp_mems):Member NOT FOUND: #{grp[:name]} - #{dn}"
                     end
                   end
                 rescue Exception => e
@@ -356,7 +356,7 @@ module Google::GroupSync
             end
           end
           
-          @log.debug "App(get_ldap_grp_mems):Attempting to find group owners for: #{grp[:cn]}"
+          @log.debug "App(get_ldap_grp_mems):Attempting to find group owners for: #{grp[:name]}"
           if !ent['owner'].nil? && ent['owner'].any?
             @log.debug "App(get_ldap_grp_mems):Owners found: #{ent['owner'].size}"
             ent['owner'].each do |dn|
@@ -375,7 +375,7 @@ module Google::GroupSync
               
               if !o_found
                 begin
-                  @ldap.ent_from_dn dn do |ent2,ldap2|
+                  @ldap.ent_from_dn dn, ['objectClass', @config.ldap.search.groups_mail_attr] do |ent2,ldap2|
                     if !ent2.nil?
                       if !ent2['mail'].nil? && ent2['mail'].any?
                         o_ent = Hash.new
@@ -390,10 +390,10 @@ module Google::GroupSync
                         
                         grp[:owners].push o_ent
                       else
-                        @log.error "App(get_ldap_grp_mems):Owner NOT FOUND: #{grp[:cn]} - #{dn}"
+                        @log.error "App(get_ldap_grp_mems):Owner NOT FOUND: #{grp[:name]} - #{dn}"
                       end
                     else
-                      @log.error "App(get_ldap_grp_mems):Owner NOT FOUND: #{grp[:cn]} - #{dn}"
+                      @log.error "App(get_ldap_grp_mems):Owner NOT FOUND: #{grp[:name]} - #{dn}"
                     end
                   end
                 rescue Exception => e
