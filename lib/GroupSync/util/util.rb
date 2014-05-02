@@ -65,9 +65,10 @@ Usage:
 
 Options:
     --help            Display this help screen
-    --cfg <file>      Specify config file location
+    --cfg <file>      Specify alternate config file location
     --quiet           Messages are not displayed to the console
     --nocolor         Turn off colors in console output
+    --debug           Run application in debug mode
     
     
     cache --refresh   Refresh the Google group cache to ensure 
