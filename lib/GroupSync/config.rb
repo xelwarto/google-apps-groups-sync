@@ -37,6 +37,17 @@ module Google::GroupSync
       if File.file?(cfg)
         begin
           require cfg
+          
+          if !config.app_dir.nil?
+            if !config.google.secrets_file.nil?
+              config.google.secrets_file = "#{config.app_dir}/#{config.google.secrets_file}"
+            end
+            
+            if !config.cache_dir.nil?
+              config.cache_dir = "#{config.app_dir}/#{config.cache_dir}"
+            end
+          end
+          
           return true
         rescue Exception => e
           @log.error "Config(load_cfg):#{e}"
