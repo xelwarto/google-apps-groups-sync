@@ -55,7 +55,7 @@ module Google::GroupSync
         @ldap =  Google::GroupSync::LdapHandler.new
         
         @cache =  Google::GroupSync::CacheHandler.instance
-        @cache.dir = @cfg[:general][:cache_dir]
+        @cache.dir = @config.cache_dir
         @cache.verify
         
         if run_cmd.eql? 'cache'
