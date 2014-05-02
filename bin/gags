@@ -31,6 +31,7 @@ else
 end
 
 trap ('SIGINT') { exit 1 }
+trap ('SIGTERM') { exit 1 }
 
 require 'GroupSync'
 Google::GroupSync::App.run(app_dir)
