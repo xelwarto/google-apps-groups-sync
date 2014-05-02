@@ -19,18 +19,18 @@ module Google::GroupSync
       attr_accessor :access_token, :refresh_token, :expires_in, :issued_at
       
       def initialize
-        @cfg = Google::GroupSync::Config.instance.get
+        @config = Google::GroupSync::Config.instance.config.google
         @log = Google::GroupSync::Log.instance
         @log.debug 'GapiHandler::Authorization:Initializing Google API authorization'
 
         @secrets = nil
         @access_token = ''
-        @refresh_token = @cfg[:gapi][:refresh_token]
+        @refresh_token = @config.refresh_token
         @expires_in = 0
         @issued_at = Time.now
         
         @log.debug 'GapiHandler::Authorization:Loading client secrets file'
-        @secrets = Google::APIClient::ClientSecrets.load(@cfg[:gapi][:secrets_file])
+        @secrets = Google::APIClient::ClientSecrets.load(@config.secrets_file)
       end
       
       def authorization
@@ -45,7 +45,7 @@ module Google::GroupSync
           @log.debug 'GapiHandler::Authorization:Access token has expired, request refresh of token'
           
           begin
-            Timeout::timeout(@cfg[:gapi][:timeout]) do
+            Timeout::timeout(@config.timeout) do
               auth.fetch_access_token!
             end
             
@@ -66,7 +66,7 @@ module Google::GroupSync
     attr_reader :configured
     
     def initialize
-      @cfg = Google::GroupSync::Config.instance.get
+      @config = Google::GroupSync::Config.instance.config.google
       @log = Google::GroupSync::Log.instance
         
       @configured = false
@@ -77,7 +77,7 @@ module Google::GroupSync
       begin
         @auth = GapiHandler::Authorization.instance
         
-        Timeout::timeout(@cfg[:gapi][:timeout]) do
+        Timeout::timeout(@config.timeout) do
           @log.debug 'GapiHandler:Loading Google Admin Directory API'
           @apis[:dir] = client.discovered_api('admin', 'directory_v1')
           
@@ -309,7 +309,7 @@ module Google::GroupSync
             @log.debug 'GapiHandler:Getting page of group results'
             results = execute(
               :api_method => @apis[:dir].groups.list,
-              :parameters => {'domain' => @cfg[:gapi][:domain], 'pageToken' => page_token},
+              :parameters => {'domain' => @config.domain, 'pageToken' => page_token},
               :body => nil
             )
             
@@ -411,8 +411,8 @@ module Google::GroupSync
     def client
       if @gapi_client.nil?
         @log.debug 'GapiHandler:Creating Google API client'
-        @gapi_client = Google::APIClient.new :application_name => @cfg[:gapi][:app_name],
-          :application_version => @cfg[:gapi][:app_version]
+        @gapi_client = Google::APIClient.new :application_name => @config.app_name,
+          :application_version => @config.app_version
       end 
       
       @log.debug 'GapiHandler:Clearing client authorization'
@@ -427,7 +427,7 @@ module Google::GroupSync
         begin
           @log.debug 'GapiHandler:Executing client API method'
           @log.debug "GapiHandler:API method parameters: #{params[:parameters].to_s}"
-          Timeout::timeout(@cfg[:gapi][:timeout]) do
+          Timeout::timeout(@config.timeout) do
             results = client.execute(
               :api_method => params[:api_method],
               :parameters => params[:parameters],
