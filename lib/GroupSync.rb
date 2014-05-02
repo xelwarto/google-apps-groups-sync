@@ -27,8 +27,8 @@ module Google
     autoload :Log, "GroupSync/log"
     autoload :Util, "GroupSync/util/util"
     autoload :Constants, "GroupSync/util/constants"
-    autoload :GapiHandler, "GroupSync/gapi_handler"
-    autoload :LdapHandler, "GroupSync/ldap_handler"
-    autoload :CacheHandler, "GroupSync/cache_handler"
+    autoload :GapiHandler, "GroupSync/handlers/gapi_handler"
+    autoload :LdapHandler, "GroupSync/handlers/ldap_handler"
+    autoload :CacheHandler, "GroupSync/handlers/cache_handler"
   end
 end
