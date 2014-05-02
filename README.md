@@ -8,7 +8,7 @@
 
 ## Description
 
-## Installtion
+## Installation
 
 ## Configuration
 
