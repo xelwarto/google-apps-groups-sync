@@ -1,0 +1,19 @@
+--- #Google Apps Groups Sync Configuration File
+:general:
+  :cache_dir: cache
+:gapi:
+  :app_name: Google Apps Groups Sync
+  :app_version: 1.0
+  :timeout: 20
+  :secrets_file: cfg/client_secrets.json
+  :refresh_token: 
+  :domain: google.com
+:ldap:
+  :server: 
+  :port: 389
+  :secure: false
+  :adm_dn: 
+  :adm_pass: 
+  :timeout: 10
+  :search_timeout: 60
+  :base: 
