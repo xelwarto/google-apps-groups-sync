@@ -19,7 +19,7 @@ Google::GroupSync::Config.configure do
   # using the --cfg command line option.
   
   
-  # General Application Configuration
+  ### General Application Configuration ###
   
   # config.cache_dir
   # Directory used to store the group cache files - a non-absolute path will
@@ -27,7 +27,7 @@ Google::GroupSync::Config.configure do
   config.cache_dir = 'cache'
   
   
-  # Google API Client Configuration
+  ### Google API Client Configuration ###
   
   # config.goolge.app_name
   # Application named used to initialize the Google API Client
@@ -61,7 +61,7 @@ Google::GroupSync::Config.configure do
   config.google.domain = 'goolge.com'
   
   
-  # LDAP Configuration
+  ### LDAP Configuration ###
   
   # config.ldap.timeout
   # LDAP server connection timeout - the LDAP connection will produce an error if the
@@ -94,7 +94,7 @@ Google::GroupSync::Config.configure do
   config.ldap.bind_pass = ''
   
   
-  # LDAP Search Configuration
+  ### LDAP Search Configuration ###
   
   # config.ldap.search.timeout
   # LDAP search connection timeout - the LDAP search will produce an error if the
