@@ -177,7 +177,7 @@ module Google::GroupSync
             
             @log.debug 'LdapHandler(run_handler):Executing LDAP search'
             begin
-              Timeout::timeout(@cfg[:ldap][:search_timeout]) do
+              Timeout::timeout(@search.timeout) do
                 @ldap.open do |l|
                   res = l.search :base => s_base, :filter => s_filter, :attributes => s_attrs, :return_result => true
                   if res != nil && res.any?
