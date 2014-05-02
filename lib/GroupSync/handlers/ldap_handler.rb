@@ -76,16 +76,16 @@ module Google::GroupSync
       attrs.push @search.groups_mail_attr
       attrs.push @search.groups_member_attr
       
-      if !@search.groups_owner_attr.nil? && !@search.groups_owner_attr.eql ''
+      if !@search.groups_owner_attr.nil? && !@search.groups_owner_attr.eql?('')
         attrs.push @search.groups_owner_attr
       end
-      if !@search.groups_manager_attr.nil? && !@search.groups_manager_attr.eql ''
+      if !@search.groups_manager_attr.nil? && !@search.groups_manager_attr.eql?('')
         attrs.push @search.groups_manager_attr
       end
-      if !@search.groups_descr_attr.nil? && !@search.groups_descr_attr.eql ''
+      if !@search.groups_descr_attr.nil? && !@search.groups_descr_attr.eql?('')
         attrs.push @search.groups_descr_attr
       end
-      if !@search.groups_alias_attr.nil? && !@search.groups_alias_attr.eql ''
+      if !@search.groups_alias_attr.nil? && !@search.groups_alias_attr.eql?('')
         attrs.push @search.groups_alias_attr
       end
       
@@ -104,19 +104,19 @@ module Google::GroupSync
               if !ent[@search.groups_mail_attr].nil? && ent[@search.groups_mail_attr].any?
                 grp[:mail] = ent[@search.groups_mail_attr].first.downcase
                 
-                if !@search.groups_alias_attr.nil? && !@search.groups_alias_attr.eql ''
+                if !@search.groups_alias_attr.nil? && !@search.groups_alias_attr.eql?('')
                   if !ent[@search.groups_alias_attr].nil? && ent[@search.groups_alias_attr].any?
                     grp[:alias] = ent[@search.groups_alias_attr]
                   end
                 end
                 
-                if !@search.groups_manager_attr.nil? && !@search.groups_manager_attr.eql ''
+                if !@search.groups_manager_attr.nil? && !@search.groups_manager_attr.eql?('')
                   if !ent[@search.groups_manager_attr].nil? && ent[@search.groups_manager_attr].any?
                     grp[:manager] = ent[@search.groups_manager_attr]
                   end
                 end
                 
-                if !@search.groups_descr_attr.nil? && !@search.groups_descr_attr.eql ''
+                if !@search.groups_descr_attr.nil? && !@search.groups_descr_attr.eql?('')
                   if !ent[@search.groups_descr_attr].nil? && ent[@search.groups_descr_attr].any?
                     grp[:description] = ent[@search.groups_descr_attr].first
                   else
