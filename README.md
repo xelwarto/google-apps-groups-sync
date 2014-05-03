@@ -1,4 +1,4 @@
-# Google Apps Groups Sync (GAGS)
+# Google Apps Groups Sync
 
 <dl>
   <dt>Author</dt><dd>Ted Elwartowski (<a href="mailto:xelwarto.pub@gmail.com">xelwarto.pub@gmail.com</a>)</dd>
