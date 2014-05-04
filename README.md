@@ -14,9 +14,9 @@
 
 ## Application Usage
 
-The application is executed using the **gags** script located in the **bin** directory of the application root. 
+The application is executed using the **ga-gs** script located in the **bin** directory of the application root. 
 ```bash
-bin/gags COMMAND OPTIONS
+bin/ga-gs COMMAND OPTIONS
 ```
 
 The application has the following commands and options:
@@ -37,29 +37,29 @@ The application has the following commands and options:
 ### Usage Examples
 **Display application usage**
 ```bash
-bin/gags --help
+bin/ga-gs --help
 ```
 **Rebuild the group cache**
 ```bash
-bin/gags cache --rebuild
+bin/ga-gs cache --rebuild
 ```
 **Refresh the group cache**
 ```bash
-bin/gags cache --refresh
+bin/ga-gs cache --refresh
 ```
 **Sync the LDAP groups to Google Apps**
 ```bash
-bin/gags sync --update
+bin/ga-gs sync --update
 ```
 **Execute a sync with no output**
 ```bash
-bin/gags sync --update --quiet
+bin/ga-gs sync --update --quiet
 ```
 **Execute a sync in debug mode**
 ```bash
-bin/gags sync --update --debug
+bin/ga-gs sync --update --debug
 ```
 **Execute with other config file**
 ```bash
-bin/gags sync --update --cfg config/app2.rb
+bin/ga-gs sync --update --cfg config/app2.rb
 ```
