@@ -19,7 +19,7 @@ module Google::GroupSync
     attr_accessor :version, :author, :cfg_file, :name
     
     def initialize
-      @name         = 'Google Apps Groups Sync (GAGS)'
+      @name         = 'Google Apps Groups Sync'
       @version      = '1.0'
       @author       = 'Ted Elwartowski <xelwarto.pub@gmail.com> (2014)'
       @cfg_file     = 'config/application.rb'
