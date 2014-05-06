@@ -104,6 +104,7 @@ module Google::GroupSync
             )
             
             if !results.nil?
+              @log.debug "GapiHandler(get_user):requested URI: #{results.request.http_method}"
               @log.debug "GapiHandler(get_user):requested URI: #{results.request.uri}"
               @log.debug "GapiHandler(get_user):results status code: #{results.status}"
               if results.status == 200
@@ -143,6 +144,7 @@ module Google::GroupSync
             )
             
             if !results.nil?
+              @log.debug "GapiHandler(get_user):requested URI: #{results.request.http_method}"
               @log.debug "GapiHandler(get_group):requested URI: #{results.request.uri}"
               @log.debug "GapiHandler(get_group):results status code: #{results.status}"
               if results.status == 200
@@ -182,6 +184,7 @@ module Google::GroupSync
               )
               
               if !results.nil?
+                @log.debug "GapiHandler(get_user):requested URI: #{results.request.http_method}"
                 @log.debug "GapiHandler(remove_grp_member):requested URI: #{results.request.uri}"
                 @log.debug "GapiHandler(remove_grp_member):results status code: #{results.status}"
                 if results.status == 200 || results.status == 204
@@ -226,6 +229,7 @@ module Google::GroupSync
             )
             
             if !results.nil?
+              @log.debug "GapiHandler(get_user):requested URI: #{results.request.http_method}"
               @log.debug "GapiHandler(add_group):requested URI: #{results.request.uri}"
               @log.debug "GapiHandler(add_group):results status code: #{results.status}"
               if results.status == 200 || results.status == 201
@@ -267,6 +271,7 @@ module Google::GroupSync
               )
               
               if !results.nil?
+                @log.debug "GapiHandler(get_user):requested URI: #{results.request.http_method}"
                 @log.debug "GapiHandler(add_grp_member):requested URI: #{results.request.uri}"
                 @log.debug "GapiHandler(add_grp_member):results status code: #{results.status}"
                 if results.status == 200 || results.status == 204
@@ -314,6 +319,7 @@ module Google::GroupSync
             )
             
             if !results.nil?
+              @log.debug "GapiHandler(get_user):requested URI: #{results.request.http_method}"
               @log.debug "GapiHandler(get_groups):requested URI: #{results.request.uri}"
               @log.debug "GapiHandler(get_groups):results status code: #{results.status}"
               if results.status == 200
@@ -368,6 +374,7 @@ module Google::GroupSync
               )
               
               if !results.nil?
+                @log.debug "GapiHandler(get_user):requested URI: #{results.request.http_method}"
                 @log.debug "GapiHandler(get_grp_members):requested URI: #{results.request.uri}"
                 @log.debug "GapiHandler(get_grp_members):results status code: #{results.status}"
                 if results.status == 200
