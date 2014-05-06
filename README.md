@@ -9,6 +9,10 @@
 ## Description
 
 ## Installation
+```bash
+gem install google-api-client
+gem install net-ldap
+```
 
 ## Configuration
 
