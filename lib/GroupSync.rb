@@ -14,11 +14,11 @@
 
 require 'singleton'
 require 'rubygems'
-require 'yaml'
 require 'json'
 require 'net-ldap'
 require 'google/api_client'
 require 'google/api_client/client_secrets'
+require 'httparty'
 
 module Google
   module GroupSync
