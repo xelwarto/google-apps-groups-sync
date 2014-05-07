@@ -163,11 +163,13 @@ module Google::GroupSync
               @log.debug "GapiHandler(get_user):results status code: #{results.status}"
               if results.status == 200
                 user = results.data
+              else
+                if !results.data.nil?
+                  @log.debug "GapiHandler(get_user):#{results.data['error']}"
+                end
               end
             else
-              if !results.data.nil?
-                @log.error 'GapiHandler(get_user):API results return invalid status'
-              end
+              @log.error 'GapiHandler(get_user):API results return invalid status'
             end
           rescue Exception => e
             @log.error "GapiHandler(get_user):#{e}"
@@ -203,11 +205,13 @@ module Google::GroupSync
               @log.debug "GapiHandler(get_group):results status code: #{results.status}"
               if results.status == 200
                 group = results.data
+              else
+                if !results.data.nil?
+                  @log.debug "GapiHandler(get_group):#{results.data['error']}"
+                end
               end
             else
-              if !results.data.nil?
-                @log.error 'GapiHandler(get_group):API results return invalid status'
-              end
+              @log.error 'GapiHandler(get_group):API results return invalid status'
             end
           rescue Exception => e
             @log.error "GapiHandler(get_group):#{e}"
