@@ -33,6 +33,44 @@ module Google::GroupSync
         @secrets = Google::APIClient::ClientSecrets.load(@config.secrets_file)
       end
       
+      def verify
+        uri = nil
+        begin
+          auth = @secrets.to_authorization
+          auth.scope = Google::GroupSync::Constants.instance.api_scope
+          uri = auth.authorization_uri.to_s
+        rescue Exception => e
+          @log.error "GapiHandler::Authorization:#{e}"
+          uri = nil
+        end
+        
+        uri
+      end
+      
+      def validate(code=nil)
+        token = nil
+        
+        if !code.nil?
+          begin
+            auth = @secrets.to_authorization
+            auth.code = code
+            
+            Timeout::timeout(@config.timeout) do
+              auth.fetch_access_token!
+            end
+            
+            token = auth.refresh_token
+          rescue Exception => e
+            @log.error "GapiHandler::Authorization:#{e}"
+            token = nil
+          end
+        else
+          @log.error 'GapiHandler::Authorization:Error fetching auth access token'
+        end
+        
+        token
+      end
+      
       def authorization
         @log.debug 'GapiHandler::Authorization:Creating Google API authorization'
         auth = @secrets.to_authorization
@@ -87,6 +125,22 @@ module Google::GroupSync
         @log.error "GapiHandler:#{e}"
         @configured = false
       end
+    end
+    
+    def verify
+      if @configured
+        return @auth.verify
+      end
+      
+      return nil
+    end
+    
+    def validate(code=nil)
+      if @configured
+        return @auth.validate code
+      end
+      
+      return nil
     end
     
     def get_user(userKey=nil)
