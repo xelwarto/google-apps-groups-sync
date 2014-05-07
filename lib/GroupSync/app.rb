@@ -208,7 +208,6 @@ module Google::GroupSync
                         
                         if @gapi.add_grp_member(id, {
                           'kind' => 'admin#directory#member',
-                          'id' => m_id,
                           'email' => mail,
                           'role' => 'MEMBER',
                           'type' => type
@@ -245,7 +244,6 @@ module Google::GroupSync
                         
                         if @gapi.add_grp_member(id, {
                           'kind' => 'admin#directory#member',
-                          'id' => m_id,
                           'email' => mail,
                           'role' => 'OWNER',
                           'type' => type
