@@ -98,7 +98,7 @@ module Google::GroupSync
     
     private
     
-    def setup_verify
+    def self.setup_verify
       @log.info 'App(setup_verify):Setup requesting authorization verification'
       uri = @gapi.verify
       
@@ -109,7 +109,7 @@ module Google::GroupSync
       end
     end
     
-    def setup_validate(code=nil)
+    def self.setup_validate(code=nil)
       @log.info 'App(setup_validate):Setup validating authorization code'
       token = @gapi.validate code
       
