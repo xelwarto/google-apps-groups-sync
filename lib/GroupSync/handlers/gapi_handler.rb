@@ -52,8 +52,12 @@ module Google::GroupSync
               :body => "{\"longUrl\": \"#{uri}\"}"
               )
             
-            if !short_uri.nil? && !short_uri == ''
-              uri = short_uri
+            if !short_uri.nil?
+              if short_uri['error'].nil?
+                if !short_uri['id'].nil?
+                  uri = short_uri['id']
+                end
+              end
             end
           end
         rescue Exception => e
