@@ -64,22 +64,26 @@ Usage:
 #{$0} <cache|sync> OPTIONS
 
 Options:
-    --help            Display this help screen
-    --cfg <file>      Specify alternate config file location
-    --quiet           Messages are not displayed to the console
-    --nocolor         Turn off colors in console output
-    --debug           Run application in debug mode
+    --help                  Display this help screen
+    --cfg <file>            Specify alternate config file location
+    --quiet                 Messages are not displayed to the console
+    --nocolor               Turn off colors in console output
+    --debug                 Run application in debug mode
     
+    setup --verify          Request authorization verification URI
+    setup --validate <code> Validate authorization with verification
+                            code, this will display the refresh token
+                            value to be added to the configuration
     
-    cache --refresh   Refresh the Google group cache to ensure 
-                      the cache matches the groups in LDAP
-    cache --rebuild   Reduild the Google group cache, this will
-                      clear the cache and rebuild it with groups
-                      matched in the LDAP
+    cache --refresh         Refresh the Google group cache to ensure 
+                            the cache matches the groups in LDAP
+    cache --rebuild         Reduild the Google group cache, this will
+                            clear the cache and rebuild it with groups
+                            matched in the LDAP
                       
-    sync --update     Run the group update to sync group updates
-                      to Google, this will refresh the group cache
-                      before performing the sync update
+    sync --update           Run the group update to sync group updates
+                            to Google, this will refresh the group cache
+                            before performing the sync update
 
 EOF
       usage

@@ -77,6 +77,18 @@ module Google::GroupSync
             @log.show Google::GroupSync::Util.show_use, false
             exit 1
           end
+        elsif run_cmd.eql? 'setup'
+          if argvs[:verify] && argvs[:validate]
+            @log.show Google::GroupSync::Util.show_use, false
+            exit 1
+          elsif argvs[:verify]
+            setup_verify
+          elsif argvs[:validate]
+            setup_validate argvs[:validate]
+          else
+            @log.show Google::GroupSync::Util.show_use, false
+            exit 1
+          end
         else
           @log.show Google::GroupSync::Util.show_use, false
           exit 1
@@ -85,6 +97,28 @@ module Google::GroupSync
     end
     
     private
+    
+    def setup_verify
+      @log.info 'App(setup_verify):Setup requesting authorization verification'
+      uri = @gapi.verify
+      
+      if uri.nil?
+        @log.error 'App(setup_verify):Failed to get authorization verification URI'
+      else
+        @log.show "Authorization URI => #{uri}", false
+      end
+    end
+    
+    def setup_validate(code=nil)
+      @log.info 'App(setup_validate):Setup validating authorization code'
+      token = @gapi.validate code
+      
+      if token.nil?
+        @log.error 'App(setup_validate):Failed to get authorization refresh token'
+      else
+        @log.show "Refresh Token => #{token}", false
+      end
+    end
     
     def self.update_groups
       @log.info 'App(update_groups):Updating group information in Google'
