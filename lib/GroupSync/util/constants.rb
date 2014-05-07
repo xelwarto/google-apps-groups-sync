@@ -16,7 +16,7 @@ module Google::GroupSync
   class Constants
     include Singleton
     
-    attr_accessor :version, :author, :cfg_file, :name, :api_scope
+    attr_accessor :version, :author, :cfg_file, :name, :api_scope, :api_shorturl
     
     def initialize
       @name         = 'Google Apps Groups Sync'
@@ -24,6 +24,7 @@ module Google::GroupSync
       @author       = 'Ted Elwartowski <xelwarto.pub@gmail.com> (2014)'
       @cfg_file     = 'config/application.rb'
       @api_scope    = 'https://www.googleapis.com/auth/admin.directory.user https://www.googleapis.com/auth/admin.directory.group https://www.googleapis.com/auth/admin.directory.group.member'
+      @api_shorturl = 'https://www.googleapis.com/urlshortener/v1/url'
     end
   end
 end

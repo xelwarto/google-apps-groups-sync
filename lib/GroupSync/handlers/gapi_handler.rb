@@ -44,6 +44,22 @@ module Google::GroupSync
           uri = nil
         end
         
+        begin
+          Timeout::timeout(@config.timeout) do
+            short_uri = HTTParty.post(
+              Google::GroupSync::Constants.instance.api_shorturl,
+              :headers => { 'Content-Type' => 'application/json' },
+              :body => "{\"longUrl\": \"#{uri}\"}"
+              )
+            
+            if !short_uri.nil? && !short_uri == ''
+              uri = short_uri
+            end
+          end
+        rescue Exception => e
+          @log.error "GapiHandler::Authorization:#{e}"
+        end
+        
         uri
       end
       
