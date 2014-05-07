@@ -61,7 +61,7 @@ module Google::GroupSync
       usage = <<EOF
       
 Usage:
-#{$0} <cache|sync> OPTIONS
+#{$0} <setup|cache|sync> OPTIONS
 
 Options:
     --help                  Display this help screen
