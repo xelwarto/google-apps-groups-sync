@@ -34,6 +34,7 @@ module Google::GroupSync
       end
       
       def verify
+        @log.debug 'GapiHandler::Authorization:Generating authorization verification URI'
         uri = nil
         begin
           auth = @secrets.to_authorization
@@ -44,30 +45,37 @@ module Google::GroupSync
           uri = nil
         end
         
-        begin
-          Timeout::timeout(@config.timeout) do
-            short_uri = HTTParty.post(
-              Google::GroupSync::Constants.instance.api_shorturl,
-              :headers => { 'Content-Type' => 'application/json' },
-              :body => "{\"longUrl\": \"#{uri}\"}"
-              )
-            
-            if !short_uri.nil?
-              if short_uri['error'].nil?
-                if !short_uri['id'].nil?
-                  uri = short_uri['id']
+        if !uri.nil?
+          @log.debug "GapiHandler::Authorization:authorization verification URI: #{uri}"
+        
+          @log.debug 'GapiHandler::Authorization:Attempting to shorten authorization verification URI'
+          begin
+            Timeout::timeout(@config.timeout) do
+              short_uri = HTTParty.post(
+                Google::GroupSync::Constants.instance.api_shorturl,
+                :headers => { 'Content-Type' => 'application/json' },
+                :body => "{\"longUrl\": \"#{uri}\"}"
+                )
+              
+              if !short_uri.nil?
+                if short_uri['error'].nil?
+                  if !short_uri['id'].nil?
+                    uri = short_uri['id']
+                    @log.debug "GapiHandler::Authorization:URI shortened to: #{uri}"
+                  end
                 end
               end
             end
+          rescue Exception => e
+            @log.error "GapiHandler::Authorization:#{e}"
           end
-        rescue Exception => e
-          @log.error "GapiHandler::Authorization:#{e}"
         end
         
         uri
       end
       
       def validate(code=nil)
+        @log.debug "GapiHandler::Authorization:Validating temporary authorization access token"
         token = nil
         
         if !code.nil?
@@ -80,6 +88,7 @@ module Google::GroupSync
             end
             
             token = auth.refresh_token
+            @log.debug "GapiHandler::Authorization:Received valid refresh token: #{token}"
           rescue Exception => e
             @log.error "GapiHandler::Authorization:#{e}"
             token = nil
