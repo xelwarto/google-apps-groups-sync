@@ -10,7 +10,7 @@
 
 The Google Apps Groups Sync is an application used to sync user groups from a standard v3 LDAP directory to Google Apps. The application will manage adding and deleting members and owners from groups with in a specific Google Apps domain. The application will also create any groups which are present in the LDAP directory and not in Google Apps.
 
-This application is not meant to be a replacement of the Google Apps Directory Sync (GADS - https://support.google.com/a/answer/106368), rather it has been designed to augment the sync process by providing additional functionality which may not be possible with the GADS. The sync of LDAP groups with the GADS can be limiting which is why this application was developed. The main purpose of this application was to provide a sync of specifc (not all) groups in the LDAP directory while still allowing users to manage groups with in the Google Groups interface.
+This application is not meant to be a replacement of the Google Apps Directory Sync (GADS - https://support.google.com/a/answer/106368), rather it has been designed to augment the sync process by providing additional functionality which may not be possible with the GADS. The sync of LDAP groups with the GADS can be limiting which is why this application was developed. The main purpose of this application was to provide a sync of specific (not all) groups in the LDAP directory while still allowing users to manage groups with in the Google Groups interface.
 
 ## Installation
 
@@ -40,6 +40,15 @@ The configuration file is separated in to the following sections:
 * Google API Configuration (**config.google**) - Configuration options which are specific to the Google API
 * LDAP Configuration (**config.ldap**) - Configuration options which are specific to the LDAP Connection
 * LDAP Search Configuration (**config.ldap.search**) - Configuration options which are specific to the LDAP Searches
+
+####Application Connectivity
+* The application will need to be able to communicate with the LDAP directory server usually on ports 389/tcp or 636/tcp. Please note: connectivity via ldaps (SSL) is not available at this time.
+* The application need standard web access to the internet on ports 80/tcp (HTTP) and 443/tcp (HTTPS). This is used to communicate with the Google servers when making API requests.
+
+####Google API Setup
+
+#####Client Secrets File
+This application makes use of the Google API for making changes to the groups in Google Apps. The API requests require proper authentiation and authorization through the use of OAuth 2.0. This requires that you first obtain a **client_secrets.json** file which contains the required API credentials. To obtain this file you must first create a project in the developer console https://console.developers.google.com.
 
 ## Application Usage
 
