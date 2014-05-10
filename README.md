@@ -53,12 +53,12 @@ The configuration file is separated in to the following sections:
 API support has to be enabled in your Google Apps domain for this application to work properly. Documentation on how to enable API support can be found here https://support.google.com/a/answer/60757.
 
 #####Client Secrets File
-This application makes use of the Google API for making changes to the groups in Google Apps. The API requests require proper authentiation and authorization through the use of OAuth 2.0. This requires that you first obtain a **client_secrets.json** file which contains the required API credentials. To obtain this file you must first create a project in the developer console https://console.developers.google.com. A good article of how to setup a project and generate the client secrets file can be found here https://code.google.com/p/google-apps-manager/wiki/CreatingClientSecretsFile. 
+This application makes use of the Google API for making changes to the groups in Google Apps. The API requests require proper authentication and authorization through the use of OAuth 2.0. This requires that you first obtain a **client_secrets.json** file which contains the required API credentials. To obtain this file you must first create a project in the developer console https://console.developers.google.com. A good article of how to setup a project and generate the client secrets file can be found here https://code.google.com/p/google-apps-manager/wiki/CreatingClientSecretsFile. 
 
-The **client_secrets.json** file is normally stored in the application **config** directory though you can choose to store it in another location by changing the **config.google.secrets_file** configuration option. The **client_secrets.json** file should be protected and the appropriate permissions should be appied to ensure the file is not accessible by anyone other than the application runtime user.
+The **client_secrets.json** file is normally stored in the application **config** directory though you can choose to store it in another location by changing the **config.google.secrets_file** configuration option. The **client_secrets.json** file should be protected and the appropriate permissions should be applied to ensure the file is not accessible by anyone other than the application runtime user.
 
 #####Authoriztion and Verification
-The application requires the configuration of a refresh token used in conjunction with the **client_secrets.json** file to obtain an access token. The access token is then used to authorize API requests made by the application. The application contains a **setup** command which allows you to obtain the refresh token once you have the **client_secrets.json** file. The application setup provides the required steps to authorize the application and verify the authenication.
+The application requires the configuration of a refresh token used in conjunction with the **client_secrets.json** file to obtain an access token. The access token is then used to authorize API requests made by the application. The application contains a **setup** command which allows you to obtain the refresh token once you have the **client_secrets.json** file. The application setup provides the required steps to authorize the application and verify the authentication.
 
 ##Application Setup
 The application setup is a run once command only required to obtain the refresh token which is then stored in the configuration file. The setup command should not need to be ran again unless the **client_secrets.json** file has changed.
@@ -67,7 +67,7 @@ The application setup is a run once command only required to obtain the refresh 
 ```bash
 bin/ga-gs setup --verify
 ```
-*  Using the code provided during the authorization run the **setup --validate <code>** command. If the validation of the verification code is succesfull this command will produce the refresh token. The refresh token value should then be added to the **config.google.refresh_token** configuraiton option in the configuration file.
+*  Using the code provided during the authorization run the **setup --validate <code>** command. If the validation of the verification code is successful this command will produce the refresh token. The refresh token value should then be added to the **config.google.refresh_token** configuration option in the configuration file.
 ```bash
 bin/ga-gs setup --validate CODE
 ```
