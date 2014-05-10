@@ -47,6 +47,9 @@ The configuration file is separated in to the following sections:
 
 ####Google API Setup
 
+#####Enabling API Support
+API support has to be enabled in your Google Apps domain for this application to work properly. Documentation on how to enable API support can be found here https://support.google.com/a/answer/60757.
+
 #####Client Secrets File
 This application makes use of the Google API for making changes to the groups in Google Apps. The API requests require proper authentiation and authorization through the use of OAuth 2.0. This requires that you first obtain a **client_secrets.json** file which contains the required API credentials. To obtain this file you must first create a project in the developer console https://console.developers.google.com.
 
