@@ -47,11 +47,17 @@ The configuration file is separated in to the following sections:
 
 ####Google API Setup
 
+**Note: For all actions which require you to login to Google (Admin Console, Developer Console, Verification), you should be using the Google Apps domain admin user account or an account which has administrative rights to the Google Apps domain.**
+
 #####Enabling API Support
 API support has to be enabled in your Google Apps domain for this application to work properly. Documentation on how to enable API support can be found here https://support.google.com/a/answer/60757.
 
 #####Client Secrets File
-This application makes use of the Google API for making changes to the groups in Google Apps. The API requests require proper authentiation and authorization through the use of OAuth 2.0. This requires that you first obtain a **client_secrets.json** file which contains the required API credentials. To obtain this file you must first create a project in the developer console https://console.developers.google.com.
+This application makes use of the Google API for making changes to the groups in Google Apps. The API requests require proper authentiation and authorization through the use of OAuth 2.0. This requires that you first obtain a **client_secrets.json** file which contains the required API credentials. To obtain this file you must first create a project in the developer console https://console.developers.google.com. A good article of how to setup a project and generate the client secrets file can be found here https://code.google.com/p/google-apps-manager/wiki/CreatingClientSecretsFile. 
+
+The **client_secrets.json** is normally stored in the application **config** directory though you can choose to store it in another location by changing the **config.google.secrets_file** configuration option. The **client_secrets.json** file should be protected and the appropriate permissions should be appied to ensure the file is not accessible by anyone other than the application runtime user.
+
+#####Authoriztion and Verification
 
 ## Application Usage
 
