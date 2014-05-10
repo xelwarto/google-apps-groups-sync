@@ -8,6 +8,10 @@
 
 ## Description
 
+The Google Apps Groups Sync is an application used to sync user groups from a standard v3 LDAP directory to Google Apps. The application will manage adding and deleting members and owners from groups with in a specific Google Apps domain. The application will also create any groups which are present in the LDAP directory and not in Google Apps.
+
+This application is not meant to be a replacement of the Google Apps Directory Sync (GADS - https://support.google.com/a/answer/106368), rather it has been designed to augment the sync process by providing additional functionality which may not be possible with the GADS. The sync of LDAP groups with the GADS can be limiting which is why this application was developed. The main purpose of this application was to provide a sync of specifc (not all) groups in the LDAP directory while still allowing users to manage groups with in the Google Groups interface.
+
 ## Installation
 
 ####Installation Requirements
