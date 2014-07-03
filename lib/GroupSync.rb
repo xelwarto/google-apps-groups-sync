@@ -12,8 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'singleton'
+
 require 'rubygems'
+require 'bundler/setup'
+
+require 'singleton'
 require 'json'
 require 'net-ldap'
 require 'google/api_client'
