@@ -16,7 +16,7 @@ module Google::GroupSync
   class Config
     include Singleton
 
-    def initialize(cfg=nil)
+    def initialize
       @c = Google::GroupSync::Constants.instance
       @log = Google::GroupSync::Log.instance
       @log.info 'Config:Initializing Application Configuration'
