@@ -24,6 +24,13 @@ Documentation regarding how this application works can be found here: https://gi
 ####Install Required Ruby GEMS
 
 ```bash
+# Bundler - for development
+bundle install
+
+# Bundler - for produciton
+bundle install --deployment
+
+# Install GEMS manually
 gem install google-api-client
 gem install net-ldap
 gem install httparty
