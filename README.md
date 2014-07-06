@@ -27,7 +27,7 @@ Documentation regarding how this application works can be found here: https://gi
 # Using Bundler - for development
 bundle install
 
-# Using Bundler - for produciton
+# Using Bundler - for production
 bundle install --deployment
 
 # Or install GEMS manually
