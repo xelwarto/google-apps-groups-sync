@@ -30,6 +30,10 @@ module Google::GroupSync
         :password => @config.bind_pass }
       @ldap = Net::LDAP.new :host => @config.server, :port => @config.port, :auth => auth
       
+      if @config.secure
+        @ldap.encryption :simple_tls
+      end
+      
       begin
         Timeout::timeout(@config.timeout) do
           if @ldap.bind

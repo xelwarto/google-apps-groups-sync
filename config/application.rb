@@ -75,12 +75,10 @@ Google::GroupSync::Config.configure do
   # config.ldap.port
   # Port number which the LDAP server is listening
   config.ldap.port = '389'
+  #config.ldap.port = '636' # Secure SSL Connections
   
   # config.ldap.secure
-  # Configure LDAPS - configure the LDAP server connection to use encrypted connection
-  # This feature currently does not exist in the application and thus only non-secure
-  # connections can be made to the LDAP server
-  # Open Issue - https://github.com/xelwarto/google-apps-groups-sync/issues/2
+  # Configure LDAPS - configure the LDAP server connection to use encrypted SSL/TLS connection
   config.ldap.secure = false
   
   # config.ldap.bind_dn
