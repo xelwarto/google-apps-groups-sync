@@ -23,7 +23,7 @@ module Google::GroupSync
     end
     
     def load!
-      @log.debug 'Config(load_cfg):Loading Configuration File'
+      @log.debug 'Config(load!):Loading Configuration File'
       config.cfg_file ||= @c.cfg_file
       
       cfg = config.cfg_file
@@ -32,7 +32,7 @@ module Google::GroupSync
           cfg = "#{config.app_dir}/#{config.cfg_file}"
         end
       end
-      @log.debug "Config(load_cfg):Configuration file set to: #{cfg}"
+      @log.debug "Config(load!):Configuration file set to: #{cfg}"
       
       if File.file?(cfg)
         begin
@@ -50,10 +50,10 @@ module Google::GroupSync
           
           return true
         rescue Exception => e
-          @log.error "Config(load_cfg):#{e}"
+          @log.error "Config(load!):#{e}"
         end
       else
-        @log.error 'Config(load_cfg):unable to locate config file'
+        @log.error 'Config(load!):unable to locate config file'
       end
       return false
     end
