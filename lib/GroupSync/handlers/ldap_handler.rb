@@ -144,7 +144,7 @@ module Google::GroupSync
       users = Hash.new
       
       attrs = ['objectClass']
-      attrs.push @search.groups_mail_attr
+      attrs.push @search.users_mail_attr
       begin
         search @search.users_base, @search.users_filter, attrs do |ent,ldap|
           if !ent.nil?
@@ -153,9 +153,9 @@ module Google::GroupSync
             dn.delete! "\s"
             dn.strip!
             
-            if !ent[@search.groups_mail_attr].nil? && ent[@search.groups_mail_attr].any?
+            if !ent[@search.users_mail_attr].nil? && ent[@search.users_mail_attr].any?
               user = Hash.new
-              user[:mail] = ent[@search.groups_mail_attr].first.downcase.to_s
+              user[:mail] = ent[@search.users_mail_attr].first.downcase.to_s
               user[:type] = 'USER'
               users[dn.to_sym] = user
             end
